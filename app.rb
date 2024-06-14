@@ -57,12 +57,19 @@ get("/payment/results") do
   @years= params.fetch("year_num").to_i
   @principal = params.fetch("principal_num").to_f
 
-  @numerator = (@apr * 100) / 12
-  @n = @years * 12
-  @denominator = 1 - (1 + @principal) ** -@n
+  # @numerator = (@apr / 100) / 12
+  # n = @years * 12
+  # @denominator = (1 - (1 + @principal)) ** -n
 
-  @result = (@numerator / @denominator).to_f
+  # @result = (@numerator / @denominator).to_f
+
+  n = @years * 12
+  r = (@apr / 100) /12
+  pv = @principal
+  p = (r * pv) / (1-((1 + r) ** -n))
  
+  @result = p 
+
   erb(:payment_result)
 
    
