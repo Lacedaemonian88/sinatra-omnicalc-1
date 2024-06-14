@@ -41,6 +41,10 @@ get("/random/new") do
 end
 
 get("/random/results") do 
+  @the_min = params.fetch("user_min").to_f
+  @the_max = params.fetch("user_max").to_f
+
+  @ran_result = rand(@the_min..@the_max)
   erb(:random_result)
 end
 
@@ -49,5 +53,17 @@ get("/payment/new") do
 end
 
 get("/payment/results") do
-  erb(:payment_results)
+  @apr = params.fetch("apr_num").to_f
+  @years= params.fetch("year_num").to_i
+  @principal = params.fetch("principal_num").to_f
+
+  @numerator = (@apr * 100) / 12
+  @n = @years * 12
+  @denominator = 1 - (1 + @principal) ** -@n
+
+  @result = (@numerator / @denominator).to_f
+ 
+  erb(:payment_result)
+
+   
 end
